@@ -135,7 +135,7 @@ class glTF2ExportUserExtension:
             for blender_bone in self.blenderBoneToGltfNode:
                 gltf_bone = self.blenderBoneToGltfNode[blender_bone]
                 constraint = self._getBoneChildConstraint(blender_bone)
-                if not constraint:
+                if not constraint or not constraint.target:
                     continue
                 target = constraint.target
                 rb: bpy.types.Object = (
@@ -243,7 +243,7 @@ class glTF2ExportUserExtension:
         constraint = self._getBoneChildConstraint(blender_bone)
         if constraint != None:
             target = constraint.target
-            if target.rigid_body or self._getParentCompoundBody(target) != None:
+            if target and (target.rigid_body or self._getParentCompoundBody(target) != None):
                 self.blenderBoneToGltfNode[blender_bone] = gltf2_node
 
     def gather_node_hook(self, gltf2_object, blender_object, export_settings):
