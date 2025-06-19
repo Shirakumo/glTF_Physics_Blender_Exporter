@@ -139,6 +139,9 @@ class Motion:
     linear_velocity: Optional[Vector] = None
     angular_velocity: Optional[Vector] = None
     gravity_factor: Optional[float] = None
+    angular_damping: Optional[float] = None
+    linear_damping: Optional[float] = None
+    start_deactivated: Optional[bool] = None
     extensions: Optional[Dict[str, Any]] = None
     extras: Any = None
 
@@ -165,6 +168,13 @@ class Motion:
         result["gravityFactor"] = from_union(
             [from_float, from_none], self.gravity_factor
         )
+        result["angularDamping"] = from_union(
+            [from_float, from_none], self.angular_damping
+        )
+        result["linearDamping"] = from_union(
+            [from_float, from_none], self.linear_damping
+        )
+        result["startDeactivated"] = from_union([from_bool, from_none], self.start_deactivated)
         result["extensions"] = from_union(
             [lambda x: from_dict(from_extension, x), from_none], self.extensions
         )
@@ -202,6 +212,13 @@ class Motion:
         result.gravity_factor = from_union(
             [from_float, from_none], obj.get("gravityFactor")
         )
+        result.angular_damping = from_union(
+            [from_float, from_none], obj.get("angularDamping")
+        )
+        result.linear_damping = from_union(
+            [from_float, from_none], obj.get("linearDamping")
+        )
+        result.start_deactivated = from_union([from_bool, from_none], obj.get("startDeactivated"))
         result.extensions = from_union(
             [lambda x: from_dict(lambda x: from_dict(lambda x: x, x), x), from_none],
             obj.get("extensions"),

@@ -322,6 +322,10 @@ class glTF2ExportUserExtension:
                     motion.inertia_orientation = Euler(
                         blender_object.khr_physics_extra_props.inertia_orientation
                     ).to_quaternion()
+                
+                motion.angular_damping = blender_object.rigid_body.angular_damping
+                motion.linear_damping = blender_object.rigid_body.linear_damping
+                motion.start_deactivated = blender_object.rigid_body.use_start_deactivated
 
                 extension_data.motion = motion
 
